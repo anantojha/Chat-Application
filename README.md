@@ -6,27 +6,27 @@ Run Instructions:
 
 1. Run ChatServer.java 
     > java ChatServer.java
-    ![RunServer](Images/RunServer.png)
+    ![RunServer](images/RunServer.png)
 
 2. Run Multiple instances of ChatClient.java
     > java ChatClient.java
-    ![RunClients](Images/RunClient.png)
+    ![RunClients](images/RunClient.png)
 
 
 
 ScreenShots: 
 
 Server Output:
-![ServerOutput](Images/ServerOutput.png)
+![ServerOutput](images/ServerOutput.png)
 
 Client 'A' Output:
-![ClientAOutput](Images/ClientAOutput.png)
+![ClientAOutput](images/ClientAOutput.png)
 
 Client 'B' Output:
-![ClientBOutput](Images/ClientBOutput.png)
+![ClientBOutput](images/ClientBOutput.png)
 
 Client 'C' Output:
-![ClientCOutput](Images/ClientCOutput.png)
+![ClientCOutput](images/ClientCOutput.png)
 
 
 
