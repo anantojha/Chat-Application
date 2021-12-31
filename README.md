@@ -6,7 +6,7 @@ Support Multiple Chat Clients.
 
 <h2>Run Instructions:</h2>
 
-1. Run ChatServer.java<>
+1. Run ChatServer.java
     > java ChatServer.java
     ![RunServer](images/RunServer.png)
 
