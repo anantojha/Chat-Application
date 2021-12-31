@@ -1,5 +1,7 @@
 # Chat-Application
-Simple Chat Application - using Socket Programming 
+Simple Chat Application using Socket Programming + Threads.
+<br>
+Support Multiple Chat Clients.
 
 
 <h2>Run Instructions:</h2>
