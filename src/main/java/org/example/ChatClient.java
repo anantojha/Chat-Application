@@ -10,7 +10,11 @@ public class ChatClient implements Serializable {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your name: ");
         String clientName = scanner.nextLine();
+        startClientChat(clientName);
+    }
 
+    public static void startClientChat(String clientName){
+        Scanner scanner = new Scanner(System.in);
         if (!clientName.equals("exit.")) {
             try (Socket socket = new Socket("localhost", 10008)) {
                 PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
