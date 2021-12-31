@@ -2,9 +2,9 @@
 Simple Chat Application - using Socket Programming 
 
 
-Run Instructions:
+<h2>Run Instructions:</h2>
 
-1. Run ChatServer.java 
+1. Run ChatServer.java<>
     > java ChatServer.java
     ![RunServer](images/RunServer.png)
 
@@ -14,18 +14,18 @@ Run Instructions:
 
 
 
-ScreenShots: 
+<h2>ScreenShots:</h2>
 
-Server Output:
+<b>Server Output:</b>
 ![ServerOutput](images/ServerOutput.png)
 
-Client 'A' Output:
+<b>Client 'A' Output:</b>
 ![ClientAOutput](images/ClientAOutput.png)
 
-Client 'B' Output:
+<b>Client 'B' Output:</b>
 ![ClientBOutput](images/ClientBOutput.png)
 
-Client 'C' Output:
+<b>Client 'C' Output:</b>
 ![ClientCOutput](images/ClientCOutput.png)
 
 
