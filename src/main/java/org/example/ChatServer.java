@@ -1,130 +1,61 @@
 package org.example;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ChatServer implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-    ServerSocket ss;
-    Server[] clientServer = new Server[2];
-    ChatClient[] clients = new ChatClient[2];
-    int numClients;
-
-
-    public static void main( String[] args ) throws Exception {
-        ChatServer cs = new ChatServer(false);
-        cs.acceptConnections();
-        cs.startChat();
-        cs.chatLoop();
-        System.out.println("Chat Over");
-        System.exit(1);
-    }
-
-    public ChatServer(boolean test) {
-        if (!test){
-            System.out.println("Starting chat server");
-        }
-
-        numClients = 0;
-        for (int i = 0; i < clients.length; i++) {
-            clients[i] = new ChatClient(" ");
-        }
-
-        if(!test) {
-            try {
-                ss = new ServerSocket(9010);
-            } catch (IOException ex) {
-                System.out.println("Server Failed to open");
+    public static void main(String[] args) {
+        ArrayList<ServerThread> threads = new ArrayList<>();
+        try (ServerSocket ss = new ServerSocket(10008)){
+            while(true) {
+                Socket socket = ss.accept();
+                ServerThread serverThread = new ServerThread(socket, threads);
+                threads.add(serverThread);
+                serverThread.start();
             }
-        }
-    }
-
-    public void acceptConnections() throws ClassNotFoundException {
-        try {
-            System.out.println("Waiting for clients...");
-            while (numClients < 2) {
-                Socket s = ss.accept();
-                numClients++;
-
-                Server server = new Server(s, numClients);
-                server.dOut.writeInt(server.clientId);
-                server.dOut.flush();
-
-                ChatClient in = (ChatClient) server.dIn.readObject();
-                System.out.println("Player " + server.clientId + " ~ " + in.name + " ~ has joined");
-                clients[server.clientId - 1] = in;
-                clientServer[numClients - 1] = server;
-            }
-            System.out.println("Two clients have joined the chat");
-
-        } catch (IOException ex) {
-            System.out.println("Could not connect both clients");
-        }
-    }
-
-    public void chatLoop() {
-        try {
-            clientServer[0].sendClients(clients);
-            clientServer[1].sendClients(clients);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Server Connection Error: " + e.getStackTrace());
         }
     }
 
-    public void startChat(){
-        for (int i = 0; i < clientServer.length; i++) {
-            Thread t = new Thread(clientServer[i]);
-            t.start();
-        }
-    }
-
-    public class Server implements Runnable {
+    public static class ServerThread extends Thread {
         private Socket socket;
-        private ObjectInputStream dIn;
-        private ObjectOutputStream dOut;
-        private int clientId;
+        private ArrayList<ServerThread> threadList;
+        private PrintWriter output;
 
-        public Server(Socket s, int playerid) {
-            socket = s;
-            clientId = playerid;
-            try {
-                dOut = new ObjectOutputStream(socket.getOutputStream());
-                dIn = new ObjectInputStream(socket.getInputStream());
-            } catch (IOException ex) {
-                System.out.println("Server Connection failed");
-            }
+        public ServerThread(Socket socket, ArrayList<ServerThread> threads) {
+            this.socket = socket;
+            this.threadList = threads;
         }
 
+        @Override
         public void run() {
             try {
-                while (true) {
-                }
+                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                output = new PrintWriter(socket.getOutputStream(), true);
 
-            } catch (Exception ex) {
-                {
-                    System.out.println("Run failed");
-                    ex.printStackTrace();
+                while (true) {
+                    String outputString = input.readLine();
+
+                    if (outputString.equals("exit."))
+                        break;
+
+                    printToALlClients(outputString);
+                    System.out.println("Server received: " + outputString);
                 }
+            } catch (Exception e) {
+                System.out.println("Error occured " + e.getStackTrace());
             }
         }
 
-        public void sendClients(ChatClient[] cl) {
-            try {
-                for (ChatClient c : cl) {
-                    dOut.writeObject(c);
-                    dOut.flush();
-                    dOut.reset();
-                }
-
-            } catch (IOException ex) {
-                System.out.println("Clients not sent");
-                ex.printStackTrace();
+        private void printToALlClients(String outputString) {
+            for (ServerThread sT : threadList) {
+                sT.output.println(outputString);
             }
+
         }
     }
 }
