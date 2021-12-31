@@ -52,7 +52,9 @@ public class ChatClient implements Serializable {
             try {
                 while (true) {
                     String response = input.readLine();
-                    System.out.println(response);
+                    if (response != null) {
+                        System.out.println(response);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
