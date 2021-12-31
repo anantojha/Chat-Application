@@ -6,11 +6,11 @@ Support Multiple Chat Clients.
 
 <h2>Run Instructions:</h2>
 
-1. Run ChatServer.java
+<b>1.</b> Run ChatServer.java
     > java ChatServer.java
     ![RunServer](images/RunServer.png)
 
-2. Run Multiple instances of ChatClient.java
+<b>2.</b> Run Multiple instances of ChatClient.java
     > java ChatClient.java
     ![RunClients](images/RunClient.png)
 
