@@ -11,6 +11,7 @@ public class ChatClient implements Serializable {
         System.out.println("Enter your name: ");
         String clientName = scanner.nextLine();
         startClientChat(clientName);
+        scanner.close();
     }
 
     public static void startClientChat(String clientName){
@@ -21,7 +22,8 @@ public class ChatClient implements Serializable {
                 String userInput;
 
                 ClientRunnable clientRun = new ClientRunnable(socket);
-                new Thread(clientRun).start();
+                Thread clientThread = new Thread(clientRun);
+                clientThread.start();
 
                 output.println(clientName + " has joined.");
 
@@ -32,7 +34,6 @@ public class ChatClient implements Serializable {
                     if (userInput.equals("exit.")) {
                         break;
                     }
-
                 } while (!userInput.equals("exit."));
             } catch (Exception e) {
                 System.out.println("Exception occured in client main: " + e.getStackTrace());
@@ -50,14 +51,22 @@ public class ChatClient implements Serializable {
             this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         }
 
+        public void closeSocket() throws IOException {
+            this.socket.close();
+        }
+
         @Override
         public void run() {
 
             try {
                 while (true) {
-                    String response = input.readLine();
-                    if (response != null) {
-                        System.out.println(response);
+                    if (!socket.isClosed()){
+                        String response = input.readLine();
+                        if (response != null) {
+                            System.out.println(response);
+                        }
+                    } else {
+                        break;
                     }
                 }
             } catch (IOException e) {

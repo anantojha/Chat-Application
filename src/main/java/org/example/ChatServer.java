@@ -48,7 +48,7 @@ public class ChatServer implements Serializable
             while (true) {
                 String outputString = input.readLine();
 
-                if (outputString.equals("exit."))
+                if (outputString == null)
                     break;
 
                 printToALlClients(outputString);
