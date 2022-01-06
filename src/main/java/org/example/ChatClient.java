@@ -14,6 +14,7 @@ public class ChatClient implements Serializable {
         scanner.close();
     }
 
+    /*listens to messages and sends them to server*/
     public static void startClientChat(String clientName){
         Scanner scanner = new Scanner(System.in);
         if (!clientName.equals("exit.")) {
