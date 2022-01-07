@@ -4,18 +4,26 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+/*
+    A class to handle the client portion of the app
+ */
 public class ChatClient implements Serializable {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your name: ");
-        String clientName = scanner.nextLine();
-        startClientChat(clientName);
-        scanner.close();
+        ChatClient chatCli = new ChatClient();
+        chatCli.startClientChat(chatCli.askUserName());
     }
 
-    /*listens to messages and sends them to server*/
-    public static void startClientChat(String clientName){
+    /* Asks user for their name and returns it */
+    public String askUserName() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your name: ");
+        String name = scanner.nextLine();
+        return name;
+    }
+
+    /* Waits for client to enter a message, then sends it to server */
+    public void startClientChat(String clientName){
         Scanner scanner = new Scanner(System.in);
         if (!clientName.equals("exit.")) {
             try (Socket socket = new Socket("localhost", 10008)) {
@@ -28,16 +36,16 @@ public class ChatClient implements Serializable {
 
                 output.println(clientName + " has joined.");
 
-                do {
+                while (true) {
                     String message = ("(" + clientName + ")" + " message : ");
                     userInput = scanner.nextLine();
                     output.println(message + " " + userInput);
                     if (userInput.equals("exit.")) {
                         break;
                     }
-                } while (!userInput.equals("exit."));
+                }
             } catch (Exception e) {
-                System.out.println("Exception occured in client main: " + e.getStackTrace());
+                System.out.println("Exception occurred in client main: " + e);
             }
         }
     }
@@ -50,10 +58,6 @@ public class ChatClient implements Serializable {
         public ClientRunnable(Socket s) throws IOException {
             this.socket = s;
             this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        }
-
-        public void closeSocket() throws IOException {
-            this.socket.close();
         }
 
         @Override
