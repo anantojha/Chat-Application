@@ -31,4 +31,6 @@ Support Multiple Chat Clients.
 <h2>Running JUnit Tests Instructions:</h2>
 In IntelliJ, navigate to *src/test/java/org/example/AppTest*, right-click and press *Run 'AppTest'*.
 <br>
-![TestFile](images/test.png)
+![test](images/test.png)
+
+
