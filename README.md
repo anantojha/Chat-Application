@@ -28,6 +28,6 @@ Support Multiple Chat Clients.
 <b>Client 'C' Output:</b>
 ![ClientCOutput](images/ClientCOutput.png)
 
-
-
-
+<h2>Running JUnit Tests Instructions:</h2>
+In IntelliJ, navigate to *src/test/java/org/example/AppTest*, right-click and press *Run 'AppTest'*.
+![TestFile](images/test.png)
