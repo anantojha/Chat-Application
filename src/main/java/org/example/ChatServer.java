@@ -37,9 +37,7 @@ public class ChatServer implements Serializable
                 threads.add(serverThread);
                 serverThread.start();
             }
-        } catch (Exception e) {
-            System.out.println("Server Connection Error: " + Arrays.toString(e.getStackTrace()));
-        }
+        } catch (Exception e) { }
     }
 
     /* Kills all ServerThread sockets and threads, then closes the ServerSocket */
